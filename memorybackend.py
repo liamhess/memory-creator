@@ -31,15 +31,14 @@ class Memorypdf():
         image = image.resize((1000, 1000))
         return image
 
-    def process_image(self, image_path, caption_text):
-        image = Image.open(image_path)
-        image = self.resize_image(image)
+    def process_image(self, input_image, caption_text):
+        image = self.resize_image(input_image)
         image = self.add_caption(image, caption_text)
         image = self.add_border(image)
         return image
     
-    def add_image(self, image_path, caption_text):
-        image = self.process_image(image_path, caption_text)
+    def add_image(self, input_image, caption_text):
+        image = self.process_image(input_image, caption_text)
         self.images.append(image)
         self.images.append(image)
 
@@ -68,7 +67,7 @@ class Memorypdf():
             if xcount >= 4:
                 xcount = 0
                 ycount += 1
-            if ycount >= 5:
+            if ycount > 5:
                 raise Exception("You're trying to fit too many pictures. One page can only hold 20 at a time.")
 
         c.save()
