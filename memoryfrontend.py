@@ -25,24 +25,24 @@ if st.session_state["image_count"] < 10:
     if uploaded_file is not None:
         st.image(image=uploaded_file)
         caption = st.text_input(label="Inserisci una didascalia.")
-    submitted = st.button("Add Image!")
+    submitted = st.button("Aggiungi immagine!")
     if submitted and uploaded_file is not None and caption is not "":
         image = Image.open(uploaded_file)
         st.session_state["pdf"].add_image(image, caption)
         st.session_state["file_uploader_key"] += 1
         st.session_state["image_count"] += 1
-        st.write("Uploaded!")
+        st.write("Caricato!")
         st.rerun()
     elif submitted and uploaded_file is None:
-        st.warning("Upload an image!")
+        st.warning("Carica un'immagine!")
     elif submitted and caption is "":
-        st.warning("Enter a caption before uploading the image!")
+        st.warning("Inserisci una didascalia prima di caricare l'immagine!")
 
 # generate pdf button
 if st.session_state["image_count"] > 0:
-    button = st.button("Generate Memory PDF!")
+    button = st.button("Genera PDF della memoria!")
     if button:
-        with st.spinner("Processing pdf..."):
+        with st.spinner("Elaborazione del PDF in corso..."):
             st.session_state["pdf"].generate_pdf("output.pdf")
         if os.path.isfile("./output.pdf"):
             with open("output.pdf", "rb") as file:
@@ -50,4 +50,4 @@ if st.session_state["image_count"] > 0:
                 # get time for filename
                 now = datetime.now(pytz.timezone("Europe/Berlin"))
                 datestring = now.strftime("%d-%m-%Y")
-                st.download_button(label="Download Memory PDF!", data=content, file_name=f"memory-scuola-caffe-{datestring}.pdf")
+                st.download_button(label="Scarica il PDF della memoria!", data=content, file_name=f"memory-scuola-caffe-{datestring}.pdf")
