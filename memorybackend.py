@@ -27,14 +27,15 @@ class Memorypdf():
         image_with_border = ImageOps.expand(resized_image, border=border_size, fill="black")
         return image_with_border
 
-    def resize_image(self, image):
-        image = image.resize((1000, 1000))
+    def resize_image(self, image, size):
+        image = image.resize((size, size))
         return image
 
     def process_image(self, input_image, caption_text):
-        image = self.resize_image(input_image)
+        image = self.resize_image(input_image, 1000)
         image = self.add_caption(image, caption_text)
         image = self.add_border(image)
+        image = self.resize_image(image, 500)
         return image
     
     def add_image(self, input_image, caption_text):
